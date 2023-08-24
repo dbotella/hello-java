@@ -11,11 +11,15 @@ jobs:
     runs-on: self-hosted
     environment: COVERITY_URL
     env:
+      github-token: ${{ secrets.TOKEN }}
+	  # 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
       COVERITY_URL: ${{ vars.COVERITY_URL }}
       COV_USER: ${{ secrets.COV_USER }}
       COVERITY_PASSPHRASE: ${{ secrets.COVERITY_PASSPHRASE }}
       COVERITY_PROJECT: ${{ github.event.repository.name }}
       COVERITY_TOOLKIT: /Applications/cov-analysis-macosx-2023.6.0
+	  COVERITY_CLI_CONNECT_PASSWORD: ${{ secrets.COVERITY_PASSPHRASE }}
+	  COVERITY_CLI_CONNECT_USERNAME: ${{ secrets.COV_USER }}
       BLDCMD: mvn -B -DskipTests package
       CHECKERS: --webapp-security
     steps:
@@ -33,12 +37,8 @@ jobs:
           COVERITY_STREAM: ${{ github.event.repository.name }}-${{ github.ref_name }}
         run: |
           export PATH=/usr/local/bin:$PATH:$COVERITY_TOOLKIT/bin
-          cov-configure --java
-          cov-configure --javascript
-          cov-build --dir idir --fs-capture-search $GITHUB_WORKSPACE $BLDCMD
-          cov-analyze --dir idir --ticker-mode none --strip-path $GITHUB_WORKSPACE $CHECKERS
-          cov-commit-defects --dir idir --ticker-mode none --url $COVERITY_URL --stream $COVERITY_STREAM --scm git \
-            --description $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID --target $RUNNER_OS --version $GITHUB_SHA
+          rm -rf idir
+          $COVBIN/coverity scan --dir idir -o commit.connect.url="$COVERITY_URL" -o commit.connect.stream="$COVERITY_STREAM" 
           cov-format-errors --dir idir --json-output-v7 coverity-results.json
       - name: Coverity Quality Gate
         if: ${{ github.event_name != 'pull_request' }}
@@ -83,3 +83,4 @@ jobs:
 #      with:
 #        name: coverity-logs
 #        path: ${{ github.workspace }}/idir
+
