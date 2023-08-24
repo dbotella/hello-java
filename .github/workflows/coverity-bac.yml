@@ -7,9 +7,9 @@ on:
     branches: [main, master, develop, stage, release]
   workflow_dispatch:
 jobs:
-  environment: COVERITY_URL
   coverity:
     runs-on: self-hosted
+    environment: COVERITY_URL
     env:
       COVERITY_URL: ${{ vars.COVERITY_URL }}
       COV_USER: ${{ secrets.COV_USER }}
