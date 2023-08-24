@@ -35,7 +35,7 @@ jobs:
         run: |
           export PATH=/usr/local/bin:$PATH:$COVERITY_TOOLKIT/bin
           rm -rf idir
-          $COVBIN/coverity scan --dir idir -o commit.connect.url="$COVERITY_URL" -o commit.connect.stream="$COVERITY_STREAM" 
+          coverity scan --dir idir -o commit.connect.url="$COVERITY_URL" -o commit.connect.stream="$COVERITY_STREAM" 
           cov-format-errors --dir idir --json-output-v7 coverity-results.json
       - name: Coverity Quality Gate
         if: ${{ github.event_name != 'pull_request' }}
