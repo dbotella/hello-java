@@ -17,10 +17,8 @@ jobs:
       COVERITY_PASSPHRASE: ${{ secrets.COVERITY_PASSPHRASE }}
       COVERITY_PROJECT: ${{ github.event.repository.name }}
       COVERITY_TOOLKIT: /Applications/cov-analysis-macosx-2023.6.0
-	  COVERITY_CLI_CONNECT_PASSWORD: ${{ secrets.COVERITY_PASSPHRASE }}
-	  COVERITY_CLI_CONNECT_USERNAME: ${{ secrets.COV_USER }}
-      BLDCMD: mvn -B -DskipTests package
-      CHECKERS: --webapp-security
+      COVERITY_CLI_CONNECT_PASSWORD: ${{ secrets.COVERITY_PASSPHRASE }}
+      COVERITY_CLI_CONNECT_USERNAME: ${{ secrets.COV_USER }}
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
