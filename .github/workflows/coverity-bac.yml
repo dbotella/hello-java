@@ -10,6 +10,7 @@ jobs:
   coverity:
     runs-on: self-hosted
     environment: COVERITY_URL
+    permissions: read-all|write-all
     env:
       github-token: ${{ secrets.TOKEN }}
       COVERITY_URL: ${{ vars.COVERITY_URL }}
