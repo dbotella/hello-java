@@ -32,6 +32,7 @@ jobs:
           COVERITY_STREAM: ${{ github.event.repository.name }}-${{ github.ref_name }}
         run: |
           export PATH=$PATH:$COVERITY_TOOLKIT/bin
+		  export PATH=/usr/local/bin:$PATH
           cov-configure --java
           cov-configure --javascript
           cov-build --dir idir --fs-capture-search $GITHUB_WORKSPACE $BLDCMD
