@@ -9,6 +9,7 @@ on:
 jobs:
   coverity:
     runs-on: self-hosted
+	environment: COVERITY_URL
     env:
       COVERITY_URL: ${{ vars.COVERITY_URL }}
       COV_USER: ${{ secrets.COV_USER }}
@@ -72,7 +73,7 @@ jobs:
 
 #      - name: Coverity Download
 #        run: |
-#          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE $COVERITY_URL/downloadFile.htm?fn=$COVERITY_TOOLKIT.tar.gz | tar -C $RUNNER_TEMP -xzf -
+#          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE $COVERITY_URL/downloadFile.htm?fn=$COVERITY_TOOLKIT.tar.gz | tar -C $RUNNER_TEMP -xzfv -
 #          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE -o $RUNNER_TEMP/$COVERITY_TOOLKIT/bin/license.dat $COVERITY_URL/downloadFile.htm?fn=license.dat
 
 
