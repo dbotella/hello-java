@@ -12,7 +12,6 @@ jobs:
     environment: COVERITY_URL
     env:
       github-token: ${{ secrets.TOKEN }}
-	  # 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
       COVERITY_URL: ${{ vars.COVERITY_URL }}
       COV_USER: ${{ secrets.COV_USER }}
       COVERITY_PASSPHRASE: ${{ secrets.COVERITY_PASSPHRASE }}
@@ -83,4 +82,4 @@ jobs:
 #      with:
 #        name: coverity-logs
 #        path: ${{ github.workspace }}/idir
-
+# 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
