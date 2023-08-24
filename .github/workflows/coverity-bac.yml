@@ -14,8 +14,6 @@ jobs:
     env:
       github-token: ${{ secrets.TOKEN }}
       COVERITY_URL: ${{ vars.COVERITY_URL }}
-      COV_USER: ${{ secrets.COV_USER }}
-      COVERITY_PASSPHRASE: ${{ secrets.COVERITY_PASSPHRASE }}
       COVERITY_PROJECT: ${{ github.event.repository.name }}
       COVERITY_TOOLKIT: /Applications/cov-analysis-macosx-2023.6.0
       COVERITY_CLI_CONNECT_PASSWORD: ${{ secrets.COVERITY_PASSPHRASE }}
@@ -41,7 +39,7 @@ jobs:
       - name: Coverity Quality Gate
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE $COVERITY_URL/api/viewContents/issues/v1/Outstanding%20Issues?projectId=$COVERITY_PROJECT > issues.json
+          curl -fLsS --user $COVERITY_CLI_CONNECT_USERNAME:$COVERITY_CLI_CONNECT_PASSWORD $COVERITY_URL/api/viewContents/issues/v1/Outstanding%20Issues?projectId=$COVERITY_PROJECT > issues.json
           if [ $(cat issues.json | jq .viewContentsV1.totalRows) -ne 0 ]; then echo "Outstanding Issues Detected"; cat issues.json | jq .viewContentsV1.rows; exit 8; fi
       - name: Get PR Changeset
         id: changeset
@@ -71,8 +69,8 @@ jobs:
 
 #      - name: Coverity Download
 #        run: |
-#          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE $COVERITY_URL/downloadFile.htm?fn=$COVERITY_TOOLKIT.tar.gz | tar -C $RUNNER_TEMP -xzfv -
-#          curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE -o $RUNNER_TEMP/$COVERITY_TOOLKIT/bin/license.dat $COVERITY_URL/downloadFile.htm?fn=license.dat
+#          curl -fLsS --user $COVERITY_CLI_CONNECT_USERNAME:$COVERITY_CLI_CONNECT_PASSWORD $COVERITY_URL/downloadFile.htm?fn=$COVERITY_TOOLKIT.tar.gz | tar -C $RUNNER_TEMP -xzfv -
+#          curl -fLsS --user $COVERITY_CLI_CONNECT_USERNAME:$COVERITY_CLI_CONNECT_PASSWORD -o $RUNNER_TEMP/$COVERITY_TOOLKIT/bin/license.dat $COVERITY_URL/downloadFile.htm?fn=license.dat
 
 
 #    - name: Save Logs
